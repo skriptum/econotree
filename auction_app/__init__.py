@@ -96,7 +96,7 @@ class Player(BasePlayer):
     num_items = models.IntegerField()
     success = models.BooleanField()
     transaction_price = models.CurrencyField()
-    transaction_seconds = models.IntegerField(doc="Timestamp (seconds since beginning of trading)")
+    transaction_seconds = models.FloatField(doc="Timestamp (seconds since beginning of trading)")
 
 
 class Transaction(ExtraModel):
@@ -161,8 +161,8 @@ def live_method(player: Player, data):
             #record transaction price and time
             buyer.transaction_price = price
             seller.transaction_price = price
-            buyer.transaction_seconds = int(time.time() - group.start_timestamp)
-            seller.transaction_seconds = int(time.time() - group.start_timestamp)
+            buyer.transaction_seconds = time.time() - group.start_timestamp
+            seller.transaction_seconds = time.time() - group.start_timestamp
 
             #publihs news to javascript
             news = dict(buyer=buyer.id_in_group, seller=seller.id_in_group, price=price)

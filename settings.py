@@ -4,9 +4,9 @@ SESSION_CONFIGS = [
     dict(
         name='auktion_experiment',
         app_sequence=["auction_app"],
-        num_demo_participants=27,
+        num_demo_participants=5,
         real_world_currency_per_point = 0.01,
-        exceeding_sellers =  4 # has to be multiple of 2!
+        exceeding_sellers =  0# has to be multiple of 2!
         # when number of players is odd, then the number of buyers 
         # is automatically one more than the number of sellers (without exceeding sellers)
     ),
