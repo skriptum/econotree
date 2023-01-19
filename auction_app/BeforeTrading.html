@@ -1,0 +1,60 @@
+{{ block title }}
+Explanation
+{{ endblock }}
+
+{{ block content }}
+
+<div>
+    <p>You are going to play an auction game.<br>
+    You will be assigned a role of either a seller or a buyer.</p>
+    <p>It is an open market. 
+    <ul>
+        <li>You will be able to see the prices of the other players in the game.</li>
+        <li>You will see at what prices the other players sold/bought their items. </li>
+    </ul>
+
+    <p> You will play 3 Rounds of Trading. Each round you can sell/buy one item</p>
+    <p> Each Round takes one Minute</p>
+    <hr>
+
+    <p>If you are a Seller, you have one item to sell.</p>
+    <ul>
+    <li>Your Lower Price Limit is {{C.PRODUCTION_COSTS}}</li>
+    <li>Your Upper Price Limit is {{C.VALUATION}}</li>
+    </ul>
+
+    <hr>
+
+    <p>If you are a Buyer, you can buy one item.</p>
+    <ul>
+    <li>Your Minimal Acceptable Price is {{C.PRODUCTION_COSTS}}</li>
+    <li>Your Maximal Acceptable Price is {{C.VALUATION}}</li>
+    </ul>
+
+    <hr>
+    <div style="background-color:rgb(231, 107, 107);">
+
+        {{ if player.is_buyer == 1 }}
+                You are a buyer. Try to buy an item for the lowest price. 
+                The maximum amount you are willing to pay is {{C.VALUATION}}.
+        {{ else }}
+                You are a seller. Try to sell an item for the highest price.
+                The minimum amount you are willing to sell for is {{C.PRODUCTION_COSTS}}.
+        {{ endif }}
+    </div>
+
+    <br>
+
+    <p>There are {{player.subsession.number_players}} players trading with you.</p>
+    <ul>
+        <li>{{player.subsession.number_buyers}} of them are buyers</li>
+        <li>{{player.subsession.number_sellers}} of them are sellers</li>
+    </ul>
+
+    <p>The Rent/Profit you make every round will be added to your previus profits.</p>
+    <p>In the end, the person with highest overall profits gets a small reward.</p>
+    <p><b>Have fun!</b></p>
+
+
+    </div>
+{{ endblock }}

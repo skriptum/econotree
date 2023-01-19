@@ -9,13 +9,16 @@ doc = "Experimental Auction Market as described in Smith (1965). Tests the effic
 class C(BaseConstants):
     NAME_IN_URL = 'auction_app'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 2
+    NUM_ROUNDS = 2 #just stop after x number of rounds 
     ITEMS_PER_SELLER = 1
     VALUATION = cu(420)
     PRODUCTION_COSTS = cu(310)
 
 class Subsession(BaseSubsession):
-    pass
+    #models for number of players, sellers and buyers
+    number_players = models.IntegerField()
+    number_sellers = models.IntegerField()
+    number_buyers = models.IntegerField()
     
 
 def creating_session(subsession: Subsession):
@@ -58,6 +61,12 @@ def creating_session(subsession: Subsession):
 
         buyers_updated = [p for p in players if p.participant.is_buyer]
 
+        #save the number of sellers and buyers in the group
+        subsession.number_players = len(players)
+        subsession.number_sellers = len(players) - len(buyers_updated)
+        subsession.number_buyers = len(buyers_updated)
+
+
         #print functions for testing
         print(f"Number of Players: {len(players)}")
         print(f"Number of Buyers: {len(buyers_updated)}")
@@ -82,11 +91,12 @@ def creating_session(subsession: Subsession):
         else:
             p.num_items = C.ITEMS_PER_SELLER
             p.break_even_point = C.PRODUCTION_COSTS
-            p.current_offer = cu(420)
+            p.current_offer = cu(C.VALUATION)
 
 
 class Group(BaseGroup):
     start_timestamp = models.IntegerField()
+
 
 
 class Player(BasePlayer):
@@ -97,6 +107,12 @@ class Player(BasePlayer):
     success = models.BooleanField()
     transaction_price = models.CurrencyField()
     transaction_seconds = models.FloatField(doc="Timestamp (seconds since beginning of trading)")
+
+    def custom_export(players):
+        yield ["Buyer, Seller, Round, Price, Seconds"]
+        transactions = Transaction.filter()
+        for t in transactions:
+            yield [t.buyer.id_in_group, t.seller.id_in_group, t.buyer.round_number, t.price, t.seconds]
 
 
 class Transaction(ExtraModel):
@@ -130,7 +146,7 @@ def live_method(player: Player, data):
     news = None
     if data:
         offer = int(data['offer'])
-        player.current_offer = offer
+        player.current_offer = cu(offer)
         if player.is_buyer:
             match = find_match(buyers=[player], sellers=sellers)
         else:
@@ -184,7 +200,9 @@ def live_method(player: Player, data):
         for p in players
     }
 
-
+def vars_for_admin_report(subsession):
+    prices = sorted([p.transaction_price for p in subsession.get_players() if p.success and p.is_buyer])
+    return dict(prices=prices)
 
 
 # -------------------------------------------------------------------
@@ -194,6 +212,17 @@ class WaitToStart(WaitPage):
     def after_all_players_arrive(group: Group):
         group.start_timestamp = int(time.time())
 
+class BeforeTrading(Page):
+
+    # only display this page in the first round
+    @staticmethod
+    def is_displayed(player: Player):
+
+        if player.subsession.round_number == 1:
+            return True
+        else:
+            return False
+    
 
 class Trading(Page):
     live_method = live_method
@@ -215,8 +244,18 @@ class ResultsWaitPage(WaitPage):
 
 
 class Results(Page):
-    pass
 
 
-page_sequence = [WaitToStart, Trading, ResultsWaitPage, Results]
+    #filter out all successfol transactions
+    @staticmethod
+    def js_vars(player: Player):
+        series = []
+        for p in player.subsession.get_players():
+            #if successful and only if buyer (so that it does not show up twice)
+            if p.success and p.is_buyer:
+                series.append([p.transaction_seconds, p.transaction_price])
+        return dict(series=series)
+
+
+page_sequence = [ BeforeTrading, WaitToStart, Trading, ResultsWaitPage, Results]
 

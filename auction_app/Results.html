@@ -26,6 +26,12 @@
             <td>{{ participant.payoff }}</td>
         </tr>
     </table>
+    {{ include 'auction_app/chart.html' }}
+    <script>
+        let series=js_vars.series;
+        redrawChart(series);
+
+    </script>
 
 {{ endblock }}
 

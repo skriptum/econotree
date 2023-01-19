@@ -1,0 +1,8 @@
+<p>Here is the sorted list of the prices in round {{ subsession.round_number }}</p>
+<p>Starts with lowest price</p>
+
+<ul>
+    {{ for price in prices }}
+        <li>{{ price }}</li>
+    {{ endfor }}
+</ul>
