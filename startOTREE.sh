@@ -1,3 +1,4 @@
+#!/bin/bash
 export DATABASE_URL=postgres://postgres:test123@localhost/django_db
 export REDIS_URL=redis://localhost:6379
 export OTREE_ADMIN_PASSWORD="test123"
