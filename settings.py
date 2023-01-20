@@ -26,7 +26,7 @@ ROOMS = [
         name="auktion_experiment", 
         display_name="Auktionsexperiment in GVWL",
         participant_label_file='_rooms/auction_ids.txt',
-        use_secure_urls=True
+        use_secure_urls=False
     ),
 ]
 

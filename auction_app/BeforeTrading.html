@@ -13,8 +13,8 @@ Explanation
         <li>You will see at what prices the other players sold/bought their items. </li>
     </ul>
 
-    <p> You will play 3 Rounds of Trading. Each round you can sell/buy one item</p>
-    <p> Each Round takes one Minute</p>
+    <p> You will play 5 Rounds of Trading. Each round you can sell/buy one item</p>
+    <p> Each Round takes two Minutes</p>
     <hr>
 
     <p>If you are a Seller, you have one item to sell.</p>
@@ -35,17 +35,19 @@ Explanation
     <div style="background-color:rgb(231, 107, 107);">
 
         {{ if player.is_buyer == 1 }}
-                You are a buyer. Try to buy an item for the lowest price. 
-                The maximum amount you are willing to pay is {{C.VALUATION}}.
+                <p>You are a buyer. Try to buy an item for the lowest price. 
+                The maximum amount you are willing to pay is {{C.VALUATION}}.</p>
+                <p> The cheaper you buy below this limit, the bigger your profits are</p>
         {{ else }}
-                You are a seller. Try to sell an item for the highest price.
-                The minimum amount you are willing to sell for is {{C.PRODUCTION_COSTS}}.
+                <p>You are a seller. Try to sell an item for the highest price.
+                The minimum amount you are willing to sell for is {{C.PRODUCTION_COSTS}}.</p>
+                <p>The higher above this limit you sell, the bigger are your profits</p>
         {{ endif }}
     </div>
 
     <br>
 
-    <p>There are {{player.subsession.number_players}} players trading with you.</p>
+    <p>There are {{player.subsession.number_players}} players (including you) in this game.</p>
     <ul>
         <li>{{player.subsession.number_buyers}} of them are buyers</li>
         <li>{{player.subsession.number_sellers}} of them are sellers</li>
