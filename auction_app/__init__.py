@@ -9,7 +9,7 @@ doc = "Experimental Auction Market as described in Smith (1965). Tests the effic
 class C(BaseConstants):
     NAME_IN_URL = 'auction_app'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 2 #just stop after x number of rounds 
+    NUM_ROUNDS = 7 #just stop after x number of rounds 
     ITEMS_PER_SELLER = 1
     VALUATION = cu(420)
     PRODUCTION_COSTS = cu(310)
@@ -236,7 +236,7 @@ class Trading(Page):
         import time
 
         group = player.group
-        return (group.start_timestamp + 2 * 60) - time.time()
+        return (group.start_timestamp + 1 * 60) - time.time()
 
 
 class ResultsWaitPage(WaitPage):

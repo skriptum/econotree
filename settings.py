@@ -3,7 +3,7 @@ from os import environ
 SESSION_CONFIGS = [
     dict(
         name='auktion_experiment',
-        app_sequence=["auction_app"],
+        app_sequence=["survey_app", "auction_app"],
         num_demo_participants=2,
         real_world_currency_per_point = 0.01,
         exceeding_sellers =  0 # has to be multiple of 2!
