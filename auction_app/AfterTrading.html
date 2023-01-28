@@ -1,0 +1,20 @@
+{{ block title }}
+Ergebnisse
+{{ endblock }}
+
+{{ block content }}
+<p>Du hast {{num_rounds}} Runde mit insgesamt {{num_players}} Spielern gespielt.</p>
+<br>
+<p>Dein Gesamtgewinn beträgt {{player.participant.payoff}}.</p>
+
+<hr>
+<p>Insgesamt wurden Renten von {{combined_payoff}} erzielt, davon</p>
+<ul>
+    <li>Produzentenrente: {{payoff_sellers}} </li>
+    <li>Konsumentenrente: {{payoff_buyers}} </li>
+</ul>
+
+<b>Vielen Dank fürs Mitspielen</b>
+<hr>
+<p>Falls irgendetwas gehakt hat, bitte hinweisen!</p>
+{{ endblock }}

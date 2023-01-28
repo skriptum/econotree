@@ -73,7 +73,6 @@ def creating_session(subsession: Subsession):
         print(f"Number of Sellers: {len(players) - len(buyers_updated)}")
         print(f"Excess Sellers: {(len(players)-len(buyers_updated)) - len(buyers_updated) } ")
 
-        
 
 
 
@@ -223,6 +222,10 @@ class BeforeTrading(Page):
         else:
             return False
     
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(num_rounds=player.subsession.session.config['num_rounds'])
+    
 
 class Trading(Page):
     live_method = live_method
@@ -236,7 +239,7 @@ class Trading(Page):
         import time
 
         group = player.group
-        return (group.start_timestamp + 1 * 60) - time.time()
+        return (group.start_timestamp + 30) - time.time()
 
 
 class ResultsWaitPage(WaitPage):
@@ -256,6 +259,39 @@ class Results(Page):
                 series.append([p.transaction_seconds, p.transaction_price])
         return dict(series=series)
 
+class AfterTrading(Page):
+    
+        # only display this page in the last round
+        @staticmethod
+        def is_displayed(player: Player):
+    
+            num_rounds = player.subsession.session.config['num_rounds']
+            if player.subsession.round_number == num_rounds:
+                return True
+            else:
+                return False
 
-page_sequence = [ BeforeTrading, WaitToStart, Trading, ResultsWaitPage, Results]
+        @staticmethod
+        def vars_for_template(player: Player):
+            num_rounds = player.subsession.session.config['num_rounds']
+
+            payoff_buyers = 0
+            payoff_sellers = 0
+            for p in player.subsession.get_players():
+                if p.is_buyer:
+                    payoff_buyers += p.payoff
+                else:
+                    payoff_sellers += p.payoff
+            
+            combined_payoff = payoff_buyers + payoff_sellers
+
+            return dict(
+                num_players=player.subsession.session.num_participants,
+                num_rounds=num_rounds,
+                payoff_buyers=payoff_buyers,
+                payoff_sellers=payoff_sellers,
+                combined_payoff=combined_payoff,
+            )
+
+page_sequence = [ BeforeTrading, WaitToStart, Trading, ResultsWaitPage, Results, AfterTrading]
 

@@ -6,9 +6,10 @@ SESSION_CONFIGS = [
         app_sequence=["survey_app", "auction_app"],
         num_demo_participants=2,
         real_world_currency_per_point = 0.01,
-        exceeding_sellers =  0 # has to be multiple of 2!
+        exceeding_sellers =  0, # has to be multiple of 2!
         # when number of players is odd, then the number of buyers 
         # is automatically one more than the number of sellers (without exceeding sellers)
+        num_rounds = 7,
     ),
 ]
 
