@@ -239,7 +239,7 @@ class Trading(Page):
         import time
 
         group = player.group
-        return (group.start_timestamp + 30) - time.time()
+        return (group.start_timestamp + 45) - time.time()
 
 
 class ResultsWaitPage(WaitPage):
@@ -247,7 +247,7 @@ class ResultsWaitPage(WaitPage):
 
 
 class Results(Page):
-
+    timeout_seconds = 11
 
     #filter out all successfol transactions
     @staticmethod
@@ -277,7 +277,7 @@ class AfterTrading(Page):
 
             payoff_buyers = 0
             payoff_sellers = 0
-            for p in player.subsession.get_players():
+            for p in player.get_others_in_subsession():
                 if p.is_buyer:
                     payoff_buyers += p.payoff
                 else:

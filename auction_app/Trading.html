@@ -3,9 +3,6 @@ Trade
 {{ endblock }}
 {{ block content }}
 
-<div style="background-color: green; border-radius: 10px;">
-    <p id="news" style="margin: 10px;"></p>
-</div>
 
 <table class="table">
     <tr>
@@ -41,6 +38,16 @@ Trade
     </tr>
 </table>
 
+<br><br>
+<h2>Market Price</h2>
+{{ include 'auction_app/chart.html' }}
+
+<br><br>
+
+<div style="background-color: green; border-radius: 10px;">
+    <p id="news" style="margin: 10px;"></p>
+</div>
+
 <h2>Trading Mask</h2>
 Your Offer is only allowed if it is between {{C.VALUATION}} and {{C.PRODUCTION_COSTS}} <br>
 <input type="number" id="my_offer">
@@ -60,9 +67,7 @@ Your Offer is only allowed if it is between {{C.VALUATION}} and {{C.PRODUCTION_C
 </div>
 
 
-<br><br>
-<h2>Market Price</h2>
-{{ include 'auction_app/chart.html' }}
+
 
 <!-- <br><br>
 <h2>Chat</h2>
