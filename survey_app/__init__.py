@@ -36,6 +36,9 @@ class Demographics(Page):
     form_model = 'player'
     form_fields = ['age', 'gender', 'program']
 
+#Datenschutz
+class Data(Page):
+    form_model = 'player'
+    form_fields = []
 
-
-page_sequence = [Demographics]
+page_sequence = [Demographics, Data]
