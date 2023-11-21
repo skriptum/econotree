@@ -3,8 +3,8 @@ from os import environ
 SESSION_CONFIGS = [
     dict(
         name='auktion_experiment',
-        app_sequence=["survey_app", "auction_app"],
-        num_demo_participants=4,
+        app_sequence=["auction_app"],
+        num_demo_participants=2,
         real_world_currency_per_point = 0.01,
         exceeding_sellers =  0, # has to be multiple of 2!
         # when number of players is odd, then the number of buyers 
@@ -26,7 +26,7 @@ ROOMS = [
     dict(
         name="auktion_experiment", 
         display_name="Auktionsexperiment in GVWL",
-        participant_label_file='_rooms/auction_ids.txt',
+        participant_label_file='_rooms/ids.txt',
         use_secure_urls=False
     ),
 ]

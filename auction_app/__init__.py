@@ -130,11 +130,19 @@ class Transaction(ExtraModel):
 # Trading Logic
 
 def find_match(buyers, sellers):
+    """
+    
+    """
+    
     for buyer in buyers:
         for seller in sellers:
             if seller.num_items > 0 and seller.current_offer <= buyer.current_offer:
+                if seller.current_offer > C.VALUATION or buyer.current_offer < C.PRODUCTION_COSTS:
+                    print("Offer is out of range")
+                    
+                else:
                 # return as soon as we find a match (the rest of the loop will be skipped)
-                return [buyer, seller]
+                    return [buyer, seller]
 
 
 def live_method(player: Player, data):
@@ -146,13 +154,22 @@ def live_method(player: Player, data):
     if data:
         offer = int(data['offer'])
         player.current_offer = cu(offer)
+            
         if player.is_buyer:
             match = find_match(buyers=[player], sellers=sellers)
         else:
             match = find_match(buyers=buyers, sellers=[player])
+
+        # if player.current_offer > C.VALUATION or player.current_offer < C.PRODUCTION_COSTS:
+        #     news = dict(buyer="AAA", seller="BBB", price="CCC")
+        #     match = None
+        #     print("Offer is out of range")
+
         if match:
             [buyer, seller] = match
             price = buyer.current_offer
+            if price > C.VALUATION or player.current_offer < C.PRODUCTION_COSTS:
+                news = dict(buyer="AAA", seller="AAA", price="AAA")
             Transaction.create(
                 group=group,
                 buyer=buyer,

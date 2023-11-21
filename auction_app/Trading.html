@@ -120,20 +120,30 @@ Your Offer is only allowed if it is between {{C.VALUATION}} and {{C.PRODUCTION_C
         if (is_buyer && num_items === 1) {
             btnOffer.disabled = true;
         }
+        
         bids_table.innerHTML = bids.map(e => `<tr><td>${cu(e)}</td></tr>`).join('');
         asks_table.innerHTML = asks.map(e => `<tr><td>${cu(e)}</td></tr>`).join('');
         redrawChart(highcharts_series);
     }
 
     function sendOffer() {
-        liveSend({'offer': my_offer.value})
-    }
-
-    my_offer.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            sendOffer();
+        // dont send if input is out of bounds
+        /*if (my_offer.value < C.VALUATION || my_offer.value > C.PRODUCTION_COSTS) {
+            liveSend({'offer': my_offer.value})
         }
-    });
+        else {
+            showNews("Your offer is out of bounds!")
+            alert("Your offer is out of bounds!")
+        }*/
+        liveSend({'offer': my_offer.value})
+
+    }
+    // comment out this line if you want to send offers by pressing enter
+    // my_offer.addEventListener("keydown", function (event) {
+    //     if (event.key === "Enter") {
+    //         sendOffer();
+    //     }
+    // });
 
     document.addEventListener('DOMContentLoaded', (event) => {
         liveSend({});
