@@ -1,0 +1,65 @@
+{{ block title }}
+Explanation
+{{ endblock }}
+
+{{ block content }}
+
+<div>
+    <p>Ihr werdet gleich ein Auktionsspiel spielen.<br>
+    Du wirst entweder die Rolle eines Verkäufers oder eines Käufers einnehmen.</p>
+    <p>Es ist ein offener Markt.
+    <ul>
+        <li>Du kannst die Preise der anderen Spieler im Spiel sehen.</li>
+        <li>Du kannst sehen, zu welchen Preisen die anderen Spieler ihre Gegenstände verkauft/gekauft haben. </li>
+    </ul>
+
+    <p> Ihr spielt  Runden. In jeder Runde kannst du einen Gegenstand verkaufen/kaufen</p>
+    <p> Jede Runde dauert 45 Sekunden</p>
+    <hr>
+
+    <p>Wenn Du ein <b>Verkäufer</b> bist, kannst du einen Artikel pro Runde verkaufen.</p>
+    <ul>
+    <li>Dein oberes <b>Preislimit ist {{C.VALUATION}}</b> (break-even point)</li>
+    </ul>
+
+    <hr>
+
+    <p>Wenn Du ein <b>Käufer</b> bist, kannst du einen Artikel pro Runde kaufen.</p>
+    <ul>
+    <li>Dein <b>Mindestpreis beträgt {{C.PRODUCTION_COSTS}}</b> (break-even point)</li>
+    </ul>
+    <hr>
+    <ul>
+    <li> Wenn Du unter Deinem  <b> Mindestpreis </b> (als Käufer) bzw. über Deinem  <b>Preislimit</b> (als Verkäufer) bietest, dann wirst Du als "irre" ausgeschlossen und kannst am Ende nichts gewinnen! </li>
+    </ul>
+
+    <hr>
+    <div style="background-color:rgb(240, 94, 94);padding: 1%;">
+
+        {{ if player.is_buyer == 1 }}
+            <p>Du bist ein Käufer (<i>Buyer</i>). Versuche, einen Artikel zum niedrigsten Preis zu kaufen.
+            Der Höchstbetrag, den Du zu zahlen bereit bist, beträgt {{C.VALUATION}} (<i>break-even point</i>).</p>
+            <p> Je günstiger Du unterhalb dieser Grenze einkaufst, desto größer sind deine Gewinne!</p>
+        {{ else }}
+            <p>Du bist ein Verkäufer (<i>Seller</i>). Versuche, einen Artikel zum höchsten möglichen Preis zu verkaufen.
+            Der Mindestbetrag, für den Du bereit bist zu verkaufen, beträgt {{C.PRODUCTION_COSTS}} (<i>break-even point</i>).</p>
+            <p>Je höher Du über diesem Limit verkaufst, desto größer sind deien Gewinne!</p>
+        {{ endif }}
+    </div>
+
+    <br>
+
+    <p>Es spielen {{player.subsession.number_players}} Spieler (inklusive dir) in dieser Runde</p>
+    <ul>
+        <li>{{player.subsession.number_buyers}} davon sind Käufer</li>
+        <li>{{player.subsession.number_sellers}} davon sind Verkäufer</li>
+    </ul>
+
+    <p>Die Rente/ Profite, die du jede Runde erwirtschaftest, werden auf die der vorherigen Runden aufaddiert</p>
+    <p>Am Ende bekommt die Person mit dem höchsten Gesamtprofit eine kleine Aufmerksamkeit</p>
+    <p><b>Viel Spaß!</b></p>
+
+
+    </div>
+    {{ next_button }}
+{{ endblock }}

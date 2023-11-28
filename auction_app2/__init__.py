@@ -7,7 +7,7 @@ doc = "Experimental Auction Market as described in Smith (1965). Tests the effic
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'auction_app'
+    NAME_IN_URL = 'auction_app2'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 7 #just stop after x number of rounds 
     ITEMS_PER_SELLER = 1
@@ -39,7 +39,7 @@ def creating_session(subsession: Subsession):
         # radnomly choose a buyer and convert to seller
         # based on the number of exceeding sellers set in SESSION_CONFIGS
 
-        exceeding_sellers = int(subsession.session.config['exceeding_sellers'])
+        exceeding_sellers = int(subsession.session.config['exceeding_sellers_2'])
         #check if number of exceeding sellers is smaller than number of players
         if exceeding_sellers > len(players):    
             exceeding_sellers = len(players) - 2

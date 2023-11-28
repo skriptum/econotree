@@ -1,0 +1,38 @@
+{{ block title }}
+    Results
+{{ endblock }}
+
+{{ block content }}
+
+    <table class="table">
+        <tr>
+            <th>Did you succeed in your Role?</th>
+            {{ if player.success == True }}
+                <td style="background-color: green;">Yes, you sold/bought for {{player.transaction_price}}</td>
+            {{ else }}
+                <td style="background-color: red;">No</td>
+            {{ endif }
+        </tr>
+        <tr>
+            <th>Items in your possession</th>
+            <td>{{ player.num_items }}</td>
+        </tr>
+        <tr>
+            <th>Profit in this round</th>
+            <td>{{ player.payoff }}</td>
+        </tr>
+        <tr>
+            <th>Payoff from the last {{ player.round_number}} rounds</th>
+            <td>{{ participant.payoff }}</td>
+        </tr>
+    </table>
+    {{ include 'auction_app/chart.html' }}
+    <script>
+        let series=js_vars.series;
+        redrawChart(series);
+
+    </script>
+
+{{ endblock }}
+
+
